@@ -53,6 +53,56 @@ bool Shader::IsCompiled(GLuint shader)
 	{
 		char buffer[512];
 		memset(buffer, 0, 512);
-
+		glGetShaderInfoLog(shader, 511, nullptr, buffer);
+		SDL_Log("GLSL compilation failed : \n%s", buffer);
+		return false;
 	}
+	return true;
+}
+
+bool Shader::Load(const std::string& vertName,
+	const std::string& fragName)
+{
+	if (!CompileShader(vertName, GL_VERTEX_SHADER, mVertexShader) ||
+		!CompileShader(fragName, GL_FRAGMENT_SHADER, mFragShader))
+	{
+		return false;
+	}
+
+	mShaderProgram = glCreateProgram();
+	glAttachShader(mShaderProgram, mVertexShader);
+	glAttachShader(mShaderProgram, mFragShader);
+	glLinkProgram(mShaderProgram);
+	if (!IsValidProgaram())
+	{
+		return false;
+	}
+	return true;
+}
+
+bool Shader::IsValidProgaram()
+{
+	GLint status;
+	glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &status);
+	if (status != GL_TRUE)
+	{
+		char buffer[512];
+		memset(buffer, 0, 512);
+		glGetProgramInfoLog(mShaderProgram, 511, nullptr, buffer);
+		SDL_Log("Shader compilaton failed : \n%s", buffer);
+		return false;
+	}
+	return true;
+}
+
+void Shader::SetActive()
+{
+	glUseProgram(mShaderProgram);
+}
+
+void Shader::Unload()
+{
+	glDeleteProgram(mShaderProgram);
+	glDeleteShader(mVertexShader);
+	glDeleteShader(mFragShader);
 }

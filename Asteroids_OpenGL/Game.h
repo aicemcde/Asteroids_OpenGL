@@ -16,10 +16,13 @@ public:
 	static Game& Get() { return *sInstance; }
 
 	void InitSpriteVerts(unsigned int vertexBuffer, unsigned int indexBuffer);
+	bool LoadShaders();
 private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
+	void LoadData();
+	void UnloadData();
 
 	static Game* sInstance;
 	Vector2 mScreenSize;
@@ -29,4 +32,5 @@ private:
 	SDL_GLContext mContext;
 
 	std::unique_ptr<class VertexArray> mSpriteVerts = nullptr;
+	std::unique_ptr<class Shader> mSpriteShader = nullptr;
 };

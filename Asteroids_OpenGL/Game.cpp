@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "VertexArray.h"
+#include "Shader.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -100,7 +101,27 @@ void Game::GenerateOutput()
 	SDL_GL_SwapWindow(mWindow);
 }
 
+void Game::LoadData()
+{
+
+}
+
+void Game::UnloadData()
+{
+
+}
+
 void Game::InitSpriteVerts(unsigned int vertexBuffer, unsigned int indexBuffer)
 {
 	mSpriteVerts = std::make_unique<VertexArray>(vertexBuffer, 4, indexBuffer, 6);
+}
+
+bool Game::LoadShaders()
+{
+	mSpriteShader = std::make_unique<Shader>();
+	if (!mSpriteShader->Load("Shader/Basic.vert", "Shader/Basic.frag"))
+	{
+		return false;
+	}
+	mSpriteShader->SetActive();
 }
