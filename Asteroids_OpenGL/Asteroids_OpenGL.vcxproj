@@ -144,6 +144,7 @@ xcopy /y /d "C:\vclib\SDL2-2.32.10\lib\x64\SDL2.dll" "$(OutDir)"</Command>
     <ClInclude Include="VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
