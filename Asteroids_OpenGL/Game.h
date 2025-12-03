@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <glew.h>
 #include <memory>
+#include <vector>
 
 class Game
 {
@@ -15,7 +16,7 @@ public:
 
 	static Game& Get() { return *sInstance; }
 
-	void InitSpriteVerts(unsigned int vertexBuffer, unsigned int indexBuffer);
+	void InitSpriteVerts();
 	bool LoadShaders();
 private:
 	void ProcessInput();
@@ -33,4 +34,7 @@ private:
 
 	std::unique_ptr<class VertexArray> mSpriteVerts = nullptr;
 	std::unique_ptr<class Shader> mSpriteShader = nullptr;
+
+	std::vector<class SpriteComponent*> mSprites;
+	std::unique_ptr<class SpriteComponent> mSpriteComp;
 };

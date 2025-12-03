@@ -1,8 +1,11 @@
 #include "Game.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "SpriteComponent.h"
 
 Game* Game::sInstance = nullptr;
+
+
 
 Game::Game()
 	:mWindow(nullptr)
@@ -61,6 +64,16 @@ bool Game::Initialize()
 
 	glGetError();
 
+	if (!LoadShaders())
+	{
+		SDL_Log("Failed to load shader");
+		return false;
+	}
+
+	InitSpriteVerts();
+
+	LoadData();
+
 	return true;
 }
 
@@ -96,14 +109,21 @@ void Game::GenerateOutput()
 	glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	//TODO : Draw scene
+	mSpriteShader->SetActive();
+	mSpriteVerts->SetActive();
+
+	for (auto sprite : mSprites)
+	{
+		sprite->Draw(mSpriteShader.get());
+	}
 
 	SDL_GL_SwapWindow(mWindow);
 }
 
 void Game::LoadData()
 {
-
+	mSpriteComp = std::make_unique<SpriteComponent>();
+	mSprites.emplace_back(std::move(mSpriteComp.get()));
 }
 
 void Game::UnloadData()
@@ -111,17 +131,30 @@ void Game::UnloadData()
 
 }
 
-void Game::InitSpriteVerts(unsigned int vertexBuffer, unsigned int indexBuffer)
+void Game::InitSpriteVerts()
 {
+	float vertexBuffer[] = {
+	-0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	-0.5f, -0.5f, 0.0f
+	};
+
+	unsigned int indexBuffer[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+
 	mSpriteVerts = std::make_unique<VertexArray>(vertexBuffer, 4, indexBuffer, 6);
 }
 
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shader/Basic.vert", "Shader/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Basic.vert", "Shaders/Basic.frag"))
 	{
 		return false;
 	}
 	mSpriteShader->SetActive();
+	return true;
 }
