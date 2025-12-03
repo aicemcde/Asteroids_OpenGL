@@ -66,5 +66,6 @@
   <ItemGroup>
     <None Include="Shaders\Basic.vert" />
     <None Include="Shaders\Basic.frag" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>

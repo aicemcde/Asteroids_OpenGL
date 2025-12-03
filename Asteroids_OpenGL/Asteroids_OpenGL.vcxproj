@@ -154,6 +154,7 @@ xcopy /y /d "C:\vclib\SDL2-2.32.10\lib\x64\SDL2.dll" "$(OutDir)"</Command>
     <ClCompile Include="VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="Shaders\Basic.frag" />
     <None Include="Shaders\Basic.vert" />
   </ItemGroup>

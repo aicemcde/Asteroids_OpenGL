@@ -1,0 +1,29 @@
+# --- コンパイル済みファイル（これらは保存しない） ---
+*.o
+*.obj
+*.dll
+*.dylib
+*.so
+
+# --- 実行ファイル ---
+# Windows
+*.exe
+# Linux / Mac (拡張子がない場合が多いですが、一般的につける名前を除外)
+*.out
+*.app
+
+# --- ビルド生成物フォルダ ---
+# CMakeなどを使う場合、buildフォルダに生成物が溜まるので丸ごと除外
+/build/
+/bin/
+/obj/
+/Debug/
+/Release/
+/x64/
+
+# --- エディタ・OSの設定ファイル（自分だけに必要な設定） ---
+.vscode/
+.vs/
+.idea/
+.DS_Store
+Thumbs.db
