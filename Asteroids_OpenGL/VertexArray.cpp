@@ -31,7 +31,7 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		sizeof(float),
+		sizeof(float) * 3,
 		0
 	);
 }

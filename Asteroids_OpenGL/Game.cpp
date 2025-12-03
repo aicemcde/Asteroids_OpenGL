@@ -2,6 +2,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "SpriteComponent.h"
+#include <cstdint>
 
 Game* Game::sInstance = nullptr;
 
@@ -11,6 +12,7 @@ Game::Game()
 	:mWindow(nullptr)
 	,mIsRunning(true)
 	,mContext(nullptr)
+	,mTicksCount(0)
 {
 	if (sInstance == nullptr)sInstance = this;
 
@@ -96,11 +98,37 @@ void Game::RunLoop()
 
 void Game::ProcessInput()
 {
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		default:
+			break;
+
+		case SDL_QUIT:
+			mIsRunning = false;
+			break;
+		}
+	}
+
+	const uint8_t* keyState = SDL_GetKeyboardState(NULL);
+	if (keyState[SDL_SCANCODE_ESCAPE])
+	{
+		mIsRunning = false;
+	}
 
 }
 
 void Game::UpdateGame()
 {
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
+	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+	mTicksCount = SDL_GetTicks();
+	if (deltaTime > 0.05f)
+	{
+		deltaTime = 0.05f;
+	}
 
 }
 
