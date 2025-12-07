@@ -27,6 +27,7 @@ public:
 
 	void ComputeWorldTransform();
 
+	const State& GetState() const { return mState; }
 private:
 	State mState;
 	float mScale;
