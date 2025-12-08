@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <SDL.h>
 
 class SpriteComponent : public Component
 {
@@ -8,7 +9,9 @@ public:
 	~SpriteComponent();
 
 	void Draw(class Shader* shader);
+	void SetTexture(SDL_Texture* texture);
 private:
 	int mTexWidth;
 	int mTexHeight;
+	SDL_Texture* mTexture;
 };

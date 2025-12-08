@@ -5,6 +5,6 @@ uniform mat4 uViewProj;
 in vec3 inPosition;
 void main()
 {
-	vecf4 pos = vec4(inPosition, 1.0);
+	vec4 pos = vec4(inPosition, 1.0);
 	gl_Position = pos * uWorldTransform * uViewProj;
 }

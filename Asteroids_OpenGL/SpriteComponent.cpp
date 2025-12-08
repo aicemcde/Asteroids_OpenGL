@@ -8,8 +8,9 @@
 
 SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	:Component(owner, updateOrder)
-	,mTexHeight(0)
-	,mTexWidth(0)
+	, mTexHeight(64)
+	, mTexWidth(64)
+	, mTexture(nullptr)
 {
 	Game::Get().GetScene()->AddSpriteComponent(this);
 }
@@ -34,4 +35,10 @@ void SpriteComponent::Draw(Shader* shader)
 		GL_UNSIGNED_INT,
 		nullptr
 	);
+}
+
+void SpriteComponent::SetTexture(SDL_Texture* texture)
+{
+	mTexture = texture;
+	SDL_QueryTexture(texture, nullptr, nullptr, &mTexWidth, &mTexHeight);
 }

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "Scene.h"
 #include "Actor.h"
+#include "Asteroid.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -151,10 +152,14 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	std::unique_ptr<Actor> temp = std::make_unique<Actor>();
-	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(temp.get());
-	temp->AddComponent(std::move(sc));
-	mScene->AddActor(std::move(temp));
+	const int numAsteroid = 20;
+	std::unique_ptr<Asteroid> asteroid;
+
+	for (int i = 0; i < numAsteroid; ++i)
+	{
+		asteroid = std::make_unique<Asteroid>();
+		mScene->AddActor(std::move(asteroid));
+	}
 }
 
 void Game::UnloadData()
@@ -182,7 +187,7 @@ void Game::InitSpriteVerts()
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shaders/Basic.vert", "Shaders/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
 	{
 		return false;
 	}

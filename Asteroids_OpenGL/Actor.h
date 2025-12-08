@@ -34,6 +34,7 @@ public:
 	void SetRotation(float rot) { mRotation = rot; }
 	Vector2 GetPosition() const { return mPosition; }
 	void SetPosition(const Vector2& pos) { mPosition = pos; }
+	float GetScale() const { return mScale; }
 
 	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
 

@@ -1,0 +1,36 @@
+#include "Asteroid.h"
+#include "Random.h"
+#include "CircleComponent.h"
+#include "SpriteComponent.h"
+#include "MoveComponent.h"
+#include "Game.h"
+
+
+Asteroid::Asteroid()
+	:Actor()
+	, mCircle(nullptr)
+{
+	Vector2 randPos = Random::GetVector(Vector2::Zero,
+		Vector2(1024.0f, 768.0f));
+	SetPosition(randPos);
+
+	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
+
+	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(this);
+	AddComponent(std::move(sc));
+
+	std::unique_ptr<MoveComponent> mc = std::make_unique<MoveComponent>(this);
+	mc->SetForwardSpeed(150.0f);
+	AddComponent(std::move(mc));
+
+	std::unique_ptr<CircleComponent> cc = std::make_unique<CircleComponent>(this);
+	mCircle = cc.get();
+	mCircle->SetRadius(40.0f);
+	AddComponent(std::move(cc));
+	
+}
+
+Asteroid::~Asteroid()
+{
+	
+}
