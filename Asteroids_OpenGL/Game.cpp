@@ -4,6 +4,7 @@
 #include "SpriteComponent.h"
 #include <cstdint>
 #include "Scene.h"
+#include "Actor.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -75,9 +76,9 @@ bool Game::Initialize()
 
 	InitSpriteVerts();
 
-	LoadData();
-
 	mScene = std::make_unique<Scene>();
+
+	LoadData();
 
 	return true;
 }
@@ -150,8 +151,10 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	mSpriteComp = std::make_unique<SpriteComponent>();
-	mSprites.emplace_back(std::move(mSpriteComp.get()));
+	std::unique_ptr<Actor> temp = std::make_unique<Actor>();
+	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(temp.get());
+	temp->AddComponent(std::move(sc));
+	mScene->AddActor(std::move(temp));
 }
 
 void Game::UnloadData()
@@ -179,7 +182,7 @@ void Game::InitSpriteVerts()
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Basic.vert", "Shaders/Basic.frag"))
 	{
 		return false;
 	}

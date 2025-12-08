@@ -87,20 +87,7 @@ void Scene::AddSpriteComponent(SpriteComponent* sc)
 {
 	int myOrder = sc->GetUpdateOrder();
 	auto iter = std::ranges::lower_bound(mSpriteComps, myOrder, {}, &SpriteComponent::GetUpdateOrder);
-	if (iter != mSpriteComps.end() && (*iter)->GetUpdateOrder() > myOrder)
-	{
-		mSpriteComps.emplace(iter, sc);
-	}
-	
-	/*auto iter = mSpriteComps.begin();
-	for (; iter != mSpriteComps.end(); ++iter)
-	{
-		if (myOrder < (*iter)->GetUpdateOrder())
-		{
-			break;
-		}
-	}
-	mSpriteComps.insert(iter, sc);*/
+	mSpriteComps.insert(iter, sc);
 }
 
 void Scene::RemoveSpriteComponent(SpriteComponent* sc)

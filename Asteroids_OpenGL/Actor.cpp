@@ -45,7 +45,7 @@ void Actor::ProcessInput(const uint8_t* keyState)
 {
 	if (mState == EActive)
 	{
-		for (auto& comp : mComponents)
+		for (const auto& comp : mComponents)
 		{
 			comp->ProcessInput(keyState);
 		}
@@ -62,15 +62,16 @@ void Actor::AddComponent(std::unique_ptr<Component> compnent)
 {
 	int myOrder = compnent->GetUpdateOrder();
 	auto iter = std::ranges::lower_bound(mComponents, myOrder, {}, &Component::GetUpdateOrder);
-	if (iter != mComponents.end() && (*iter)->GetUpdateOrder() > myOrder)
-	{
-		mComponents.emplace(iter, std::move(compnent));
-	}
+	mComponents.insert(iter, std::move(compnent));
 }
 
 void Actor::RemoveComponen(Component* component)
 {
-	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
+	auto iter = std::find_if(mComponents.begin(), mComponents.end(),
+		[component](const std::unique_ptr<Component>& ptr)
+		{
+			return ptr.get() == component;
+		});
 	if (iter != mComponents.end())
 	{
 		mComponents.erase(iter);

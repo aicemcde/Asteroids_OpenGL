@@ -18,6 +18,7 @@ public:
 
 	void InitSpriteVerts();
 	bool LoadShaders();
+	class Scene* GetScene() const { return mScene.get(); }
 private:
 	void ProcessInput();
 	void UpdateGame();
