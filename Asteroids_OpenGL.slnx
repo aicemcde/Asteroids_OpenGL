@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Asteroids_OpenGL/Asteroids_OpenGL.vcxproj" />
+  <Project Path="Asteroids_OpenGL/Asteroids_OpenGL.vcxproj" Id="569ea50f-9ce3-494e-ae66-074dbedad989" />
 </Solution>
