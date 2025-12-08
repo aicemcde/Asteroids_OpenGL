@@ -28,6 +28,10 @@ public:
 	void ComputeWorldTransform();
 
 	const State& GetState() const { return mState; }
+	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
+
+	void AddComponent(std::unique_ptr<class Component> component);
+	void RemoveComponen(class Component* component);
 private:
 	State mState;
 	float mScale;

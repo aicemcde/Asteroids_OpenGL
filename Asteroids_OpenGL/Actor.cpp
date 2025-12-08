@@ -1,11 +1,13 @@
 #include "Actor.h"
 #include "Component.h"
+#include <algorithm>
 
 Actor::Actor()
 	:mRecomputeWorldTransform(true)
 	,mScale(0.0f)
 	,mPosition(Vector2::Zero)
 	,mRotation(0.0f)
+	,mState(EActive)
 {
 
 }
@@ -37,6 +39,42 @@ void Actor::UpdateComponents(float deltaTime)
 void Actor::UpdateActor(float deltaTime)
 {
 
+}
+
+void Actor::ProcessInput(const uint8_t* keyState)
+{
+	if (mState == EActive)
+	{
+		for (auto& comp : mComponents)
+		{
+			comp->ProcessInput(keyState);
+		}
+		ActorInput(keyState);
+	}
+}
+
+void Actor::ActorInput(const uint8_t* keyState)
+{
+
+}
+
+void Actor::AddComponent(std::unique_ptr<Component> compnent)
+{
+	int myOrder = compnent->GetUpdateOrder();
+	auto iter = std::ranges::lower_bound(mComponents, myOrder, {}, &Component::GetUpdateOrder);
+	if (iter != mComponents.end() && (*iter)->GetUpdateOrder() > myOrder)
+	{
+		mComponents.emplace(iter, std::move(compnent));
+	}
+}
+
+void Actor::RemoveComponen(Component* component)
+{
+	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
+	if (iter != mComponents.end())
+	{
+		mComponents.erase(iter);
+	}
 }
 
 void Actor::ComputeWorldTransform()

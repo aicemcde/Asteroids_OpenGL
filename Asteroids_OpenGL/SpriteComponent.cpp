@@ -1,8 +1,11 @@
 #include "SpriteComponent.h"
 #include <glew.h>
+#include "Math.h"
+#include "Actor.h"
+#include "Shader.h"
 
-SpriteComponent::SpriteComponent(int updateOrder)
-	:Component(updateOrder)
+SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
+	:Component(owner, updateOrder)
 {
 
 }
@@ -14,6 +17,13 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::Draw(Shader* shader)
 {
+	Matrix4 scaleMat = Matrix4::CreateScale(
+		static_cast<float>(mTexWidth),
+		static_cast<float>(mTexHeight),
+		1.0f
+	);
+	Matrix4 world = scaleMat * mOwner->GetWorldTransform();
+	shader->SetMatrixUniform("uWorldTransform", world);
 	glDrawElements(
 		GL_TRIANGLES,
 		6,

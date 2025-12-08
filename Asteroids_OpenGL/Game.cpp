@@ -179,10 +179,12 @@ void Game::InitSpriteVerts()
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shaders/Basic.vert", "Shaders/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
 	{
 		return false;
 	}
+	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.f, 768.f);
+	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
 	mSpriteShader->SetActive();
 	return true;
 }

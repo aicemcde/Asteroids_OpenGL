@@ -4,7 +4,7 @@
 class Component
 {
 public:
-	Component(int updateOrder = 100);
+	Component(class Actor* owner, int updateOrder = 100);
 	virtual ~Component();
 
 	virtual void Update(float deltaTime);
@@ -12,4 +12,5 @@ public:
 	int GetUpdateOrder() const { return mUpdateOrder; }
 protected:
 	int mUpdateOrder;
+	class Actor* mOwner;
 };

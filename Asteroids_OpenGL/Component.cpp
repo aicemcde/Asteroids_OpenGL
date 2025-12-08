@@ -1,7 +1,8 @@
 #include "Component.h"
 
-Component::Component(int updateOrder)
+Component::Component(Actor* owner, int updateOrder)
 	:mUpdateOrder(updateOrder)
+	,mOwner(owner)
 {
 
 }
