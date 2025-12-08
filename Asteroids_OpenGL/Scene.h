@@ -9,7 +9,7 @@ public:
 	Scene();
 
 	void Update(float deltaTime);
-	void Draw();
+	void Draw(class Shader* shader);
 	void Unload();
 
 	void AddActor(std::unique_ptr<class Actor> actor);

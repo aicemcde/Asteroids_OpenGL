@@ -30,6 +30,13 @@ public:
 	const State& GetState() const { return mState; }
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
+	float GetRotation() const { return mRotation; }
+	void SetRotation(float rot) { mRotation = rot; }
+	const Vector2& GetPosition() const { return mPosition; }
+	void SetPosition(const Vector2& pos) { mPosition = pos; }
+
+	const Vector2& GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
+
 	void AddComponent(std::unique_ptr<class Component> component);
 	void RemoveComponen(class Component* component);
 private:

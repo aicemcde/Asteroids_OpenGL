@@ -32,9 +32,12 @@ void Scene::Update(float deltaTime)
 	mActors.erase(iter, mActors.end());
 }
 
-void Scene::Draw()
+void Scene::Draw(Shader* shader)
 {
-
+	for (auto& sprite : mSpriteComps)
+	{
+		sprite->Draw(shader);
+	}
 }
 
 void Scene::Unload()

@@ -38,5 +38,7 @@ private:
 	std::vector<class SpriteComponent*> mSprites;
 	std::unique_ptr<class SpriteComponent> mSpriteComp;
 
+	std::unique_ptr<class Scene> mScene;
+
 	Uint32 mTicksCount;
 };

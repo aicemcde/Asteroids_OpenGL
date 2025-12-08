@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "SpriteComponent.h"
 #include <cstdint>
+#include "Scene.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -76,6 +77,8 @@ bool Game::Initialize()
 
 	LoadData();
 
+	mScene = std::make_unique<Scene>();
+
 	return true;
 }
 
@@ -140,10 +143,7 @@ void Game::GenerateOutput()
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 
-	for (auto sprite : mSprites)
-	{
-		sprite->Draw(mSpriteShader.get());
-	}
+	mScene->Draw(mSpriteShader.get());
 
 	SDL_GL_SwapWindow(mWindow);
 }
