@@ -6,6 +6,9 @@
 #include <SDL.h>
 
 Shader::Shader()
+	:mShaderProgram(0)
+	,mVertexShader(0)
+	,mFragShader(0)
 {
 
 }

@@ -23,8 +23,8 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::Draw(Shader* shader)
 {
 	Matrix4 scaleMat = Matrix4::CreateScale(
-		static_cast<float>(mTexWidth),
-		static_cast<float>(mTexHeight),
+		static_cast<float>(64),
+		static_cast<float>(64),
 		1.0f
 	);
 	Matrix4 world = scaleMat * mOwner->GetWorldTransform();

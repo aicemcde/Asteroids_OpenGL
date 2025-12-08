@@ -134,7 +134,7 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05f;
 	}
-
+	mScene->Update(deltaTime);
 }
 
 void Game::GenerateOutput()
@@ -191,8 +191,8 @@ bool Game::LoadShaders()
 	{
 		return false;
 	}
+	mSpriteShader->SetActive();
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.f, 768.f);
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
-	mSpriteShader->SetActive();
 	return true;
 }

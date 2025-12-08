@@ -4,7 +4,7 @@
 
 Actor::Actor()
 	:mRecomputeWorldTransform(true)
-	,mScale(0.0f)
+	,mScale(1.0f)
 	,mPosition(Vector2::Zero)
 	,mRotation(0.0f)
 	,mState(EActive)
