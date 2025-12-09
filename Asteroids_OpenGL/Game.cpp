@@ -78,6 +78,7 @@ bool Game::Initialize()
 	InitSpriteVerts();
 
 	mScene = std::make_unique<Scene>();
+	mResourcManager = std::make_unique<ResourceManager>();
 
 	LoadData();
 

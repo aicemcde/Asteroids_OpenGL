@@ -4,6 +4,7 @@
 #include "SpriteComponent.h"
 #include "MoveComponent.h"
 #include "Game.h"
+#include "ResourceManager.h"
 
 
 Asteroid::Asteroid()
@@ -17,6 +18,7 @@ Asteroid::Asteroid()
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(this);
+	sc->SetTexture(Game::Get().GetResourceManager()->GetTexture("Assets/Asteroid.png"));
 	AddComponent(std::move(sc));
 
 	std::unique_ptr<MoveComponent> mc = std::make_unique<MoveComponent>(this);

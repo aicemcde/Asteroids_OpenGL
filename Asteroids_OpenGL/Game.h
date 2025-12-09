@@ -19,6 +19,7 @@ public:
 	void InitSpriteVerts();
 	bool LoadShaders();
 	class Scene* GetScene() const { return mScene.get(); }
+	class ResourceManager* GetResourceManager() const { return mResourcManager.get(); }
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -40,6 +41,7 @@ private:
 	std::unique_ptr<class SpriteComponent> mSpriteComp;
 
 	std::unique_ptr<class Scene> mScene;
+	std::unique_ptr<class ResourceManager> mResourcManager;
 
 	Uint32 mTicksCount;
 };
