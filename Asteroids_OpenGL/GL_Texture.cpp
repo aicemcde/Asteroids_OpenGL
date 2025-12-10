@@ -1,5 +1,6 @@
 #include "GL_Texture.h"
-#include <SOIL.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include <SDL.h>
 #include <glew.h>
 
@@ -19,14 +20,10 @@ GL_Texture::~GL_Texture()
 bool GL_Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
-	unsigned char* image = SOIL_load_image(
-		fileName.c_str(),
-		&mWidth,
-		&mHeight,
-		&channels,
-		SOIL_LOAD_AUTO
-	);
-	if (image == nullptr)
+
+	unsigned char* image = stbi_load(fileName.c_str(), &mWidth, &mHeight, &channels, 0);
+
+	if (!image)
 	{
 		SDL_Log("Failed to load image : %s", fileName.c_str());
 		return false;
@@ -53,7 +50,7 @@ bool GL_Texture::Load(const std::string& fileName)
 		image
 	);
 
-	SOIL_free_image_data(image);
+	stbi_image_free(image);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
