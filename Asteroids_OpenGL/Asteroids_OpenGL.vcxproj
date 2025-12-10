@@ -171,6 +171,8 @@ xcopy /y /d "C:\vclib\SDL2-2.32.10\lib\x64\SDL2.dll" "$(OutDir)"</Command>
     <None Include="Shaders\Basic.frag" />
     <None Include="Shaders\Basic.vert" />
     <None Include="Shaders\Transform.vert" />
+    <None Include="Sprite.frag" />
+    <None Include="Sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -188,7 +188,7 @@ void Game::InitSpriteVerts()
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
 		return false;
 	}
