@@ -1,14 +1,19 @@
 #include "ResourceManager.h"
-#include "GL_Texture.h"
+#include "Texture.h"
+
+ResourceManager::ResourceManager()
+{
+
+}
 
 ResourceManager::~ResourceManager()
 {
 
 }
 
-GL_Texture* ResourceManager::GetTexture(const std::string& fileName)
+Texture* ResourceManager::GetTexture(const std::string& fileName)
 {
-	GL_Texture* tex = nullptr;
+	Texture* tex = nullptr;
 	auto iter = mTextures.find(fileName);
 	if (iter != mTextures.end())
 	{
@@ -16,7 +21,7 @@ GL_Texture* ResourceManager::GetTexture(const std::string& fileName)
 	}
 	else
 	{
-		std::unique_ptr<GL_Texture> uniTex = std::make_unique<GL_Texture>();
+		std::unique_ptr<Texture> uniTex = std::make_unique<Texture>();
 		if (uniTex->Load(fileName))
 		{
 			tex = uniTex.get();

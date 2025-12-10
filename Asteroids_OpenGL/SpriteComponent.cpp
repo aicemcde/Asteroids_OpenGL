@@ -5,7 +5,7 @@
 #include "Shader.h"
 #include "Game.h"
 #include "Scene.h"
-#include "GL_Texture.h"
+#include "Texture.h"
 
 SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	:Component(owner, updateOrder)
@@ -39,7 +39,7 @@ void SpriteComponent::Draw(Shader* shader)
 	);
 }
 
-void SpriteComponent::SetTexture(GL_Texture* texture)
+void SpriteComponent::SetTexture(Texture* texture)
 {
 	mTexture = texture;
 	mTexWidth = mTexture->GetWidth();

@@ -147,8 +147,8 @@ xcopy /y /d "C:\vclib\SDL2-2.32.10\lib\x64\SDL2.dll" "$(OutDir)"</Command>
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="GL_Texture.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,15 +165,15 @@ xcopy /y /d "C:\vclib\SDL2-2.32.10\lib\x64\SDL2.dll" "$(OutDir)"</Command>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
-    <ClCompile Include="GL_Texture.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Basic.frag" />
     <None Include="Shaders\Basic.vert" />
     <None Include="Shaders\Transform.vert" />
-    <None Include="Sprite.frag" />
-    <None Include="Sprite.vert" />
+    <None Include="Shaders\Sprite.frag" />
+    <None Include="Shaders\Sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

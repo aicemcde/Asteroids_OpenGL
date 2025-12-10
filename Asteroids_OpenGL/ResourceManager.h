@@ -3,12 +3,15 @@
 #include <unordered_map>
 #include <string>
 
+class Texture;
+
 class ResourceManager
 {
 public:
+	ResourceManager();
 	~ResourceManager();
-	class GL_Texture* GetTexture(const std::string& fileName);
+	Texture* GetTexture(const std::string& fileName);
 	void Unload();
 private:
-	std::unordered_map<std::string, std::unique_ptr<class GL_Texture>> mTextures;
+	std::unordered_map<std::string, std::unique_ptr<Texture>> mTextures;
 };

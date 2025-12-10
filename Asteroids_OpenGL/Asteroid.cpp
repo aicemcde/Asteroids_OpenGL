@@ -5,7 +5,7 @@
 #include "MoveComponent.h"
 #include "Game.h"
 #include "ResourceManager.h"
-#include "GL_Texture.h"
+#include "Texture.h"
 
 
 Asteroid::Asteroid()

@@ -58,7 +58,7 @@ bool Game::Initialize()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		SDL_Log("GLEW could not intitialize!");
+		SDL_Log("GLEW could not initialize!");
 		return false;
 	}
 

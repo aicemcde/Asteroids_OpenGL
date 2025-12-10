@@ -1,10 +1,10 @@
-#include "GL_Texture.h"
+#include "Texture.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <SDL.h>
 #include <glew.h>
 
-GL_Texture::GL_Texture()
+Texture::Texture()
 	:mTextureID(0)
 	, mWidth(0)
 	, mHeight(0)
@@ -12,12 +12,12 @@ GL_Texture::GL_Texture()
 
 }
 
-GL_Texture::~GL_Texture()
+Texture::~Texture()
 {
 
 }
 
-bool GL_Texture::Load(const std::string& fileName)
+bool Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
 
@@ -57,12 +57,12 @@ bool GL_Texture::Load(const std::string& fileName)
 	return true;
 }
 
-void GL_Texture::Unload()
+void Texture::Unload()
 {
 	glDeleteTextures(1, &mTextureID);
 }
 
-void GL_Texture::SetActive()
+void Texture::SetActive()
 {
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 }

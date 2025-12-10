@@ -51,13 +51,13 @@
     <ClInclude Include="Asteroid.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GL_Texture.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,10 +101,10 @@
     <ClCompile Include="Asteroid.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GL_Texture.cpp">
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,7 +112,7 @@
     <None Include="Shaders\Basic.vert" />
     <None Include="Shaders\Basic.frag" />
     <None Include="Shaders\Transform.vert" />
-    <None Include="Sprite.vert" />
-    <None Include="Sprite.frag" />
+    <None Include="Shaders\Sprite.vert" />
+    <None Include="Shaders\Sprite.frag" />
   </ItemGroup>
 </Project>
