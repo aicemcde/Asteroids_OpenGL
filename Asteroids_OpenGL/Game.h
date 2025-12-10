@@ -37,9 +37,6 @@ private:
 	std::unique_ptr<class VertexArray> mSpriteVerts = nullptr;
 	std::unique_ptr<class Shader> mSpriteShader = nullptr;
 
-	std::vector<class SpriteComponent*> mSprites;
-	std::unique_ptr<class SpriteComponent> mSpriteComp;
-
 	std::unique_ptr<class Scene> mScene;
 	std::unique_ptr<class ResourceManager> mResourcManager;
 

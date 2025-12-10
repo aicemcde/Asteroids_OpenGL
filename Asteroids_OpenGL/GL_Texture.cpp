@@ -1,9 +1,9 @@
-#include "Texture.h"
+#include "GL_Texture.h"
 #include <SOIL.h>
 #include <SDL.h>
 #include <glew.h>
 
-Texture::Texture()
+GL_Texture::GL_Texture()
 	:mTextureID(0)
 	, mWidth(0)
 	, mHeight(0)
@@ -11,12 +11,12 @@ Texture::Texture()
 
 }
 
-Texture::~Texture()
+GL_Texture::~GL_Texture()
 {
 
 }
 
-bool Texture::Load(const std::string& fileName)
+bool GL_Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
 	unsigned char* image = SOIL_load_image(
@@ -60,12 +60,12 @@ bool Texture::Load(const std::string& fileName)
 	return true;
 }
 
-void Texture::Unload()
+void GL_Texture::Unload()
 {
 	glDeleteTextures(1, &mTextureID);
 }
 
-void Texture::SetActive()
+void GL_Texture::SetActive()
 {
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 }

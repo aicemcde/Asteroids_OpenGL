@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 
-class Texture
+class GL_Texture
 {
 public:
-	Texture();
-	~Texture();
+	GL_Texture();
+	~GL_Texture();
 
 	bool Load(const std::string& fileName);
 	void Unload();

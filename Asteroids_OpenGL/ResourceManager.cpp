@@ -1,10 +1,14 @@
 #include "ResourceManager.h"
-#include <SDL_image.h>
-#include "Texture.h"
+#include "GL_Texture.h"
 
-Texture* ResourceManager::GetTexture(const char* fileName)
+ResourceManager::~ResourceManager()
 {
-	Texture* tex = nullptr;
+
+}
+
+GL_Texture* ResourceManager::GetTexture(const std::string& fileName)
+{
+	GL_Texture* tex = nullptr;
 	auto iter = mTextures.find(fileName);
 	if (iter != mTextures.end())
 	{
@@ -12,8 +16,8 @@ Texture* ResourceManager::GetTexture(const char* fileName)
 	}
 	else
 	{
-		std::unique_ptr<Texture> uniTex = std::make_unique<Texture>();
-		if (tex->Load(fileName))
+		std::unique_ptr<GL_Texture> uniTex = std::make_unique<GL_Texture>();
+		if (uniTex->Load(fileName))
 		{
 			tex = uniTex.get();
 			mTextures.emplace(fileName, std::move(uniTex));

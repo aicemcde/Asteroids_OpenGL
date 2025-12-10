@@ -9,9 +9,9 @@ public:
 	~SpriteComponent();
 
 	void Draw(class Shader* shader);
-	void SetTexture(class Texture* texture);
+	void SetTexture(class GL_Texture* texture);
 private:
 	int mTexWidth;
 	int mTexHeight;
-	class Texture* mTexture;
+	class GL_Texture* mTexture;
 };

@@ -1,11 +1,11 @@
 #include "Game.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include "SpriteComponent.h"
 #include <cstdint>
 #include "Scene.h"
 #include "Actor.h"
 #include "Asteroid.h"
+#include "ResourceManager.h"
 
 Game* Game::sInstance = nullptr;
 
