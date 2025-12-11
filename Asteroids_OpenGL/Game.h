@@ -19,13 +19,14 @@ public:
 	void InitSpriteVerts();
 	bool LoadShaders();
 	class Scene* GetScene() const { return mScene.get(); }
-	class ResourceManager* GetResourceManager() const { return mResourcManager.get(); }
+	class ResourceManager* GetResourceManager() const { return mResourceManager.get(); }
 private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
 	void LoadData();
 	void UnloadData();
+	void UpdateAsteroid();
 
 	static Game* sInstance;
 	Vector2 mScreenSize;
@@ -38,7 +39,8 @@ private:
 	std::unique_ptr<class Shader> mSpriteShader = nullptr;
 
 	std::unique_ptr<class Scene> mScene;
-	std::unique_ptr<class ResourceManager> mResourcManager;
+	std::unique_ptr<class ResourceManager> mResourceManager;
 
 	Uint32 mTicksCount;
+	const int mNumAsteroid = 20;
 };

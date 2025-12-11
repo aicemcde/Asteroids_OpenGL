@@ -7,6 +7,8 @@ public:
 	Asteroid();
 	~Asteroid();
 
+	void UpdateActor(float deltaTime) override;
+
 	class CircleComponent* GetCircle() { return mCircle; }
 
 private:

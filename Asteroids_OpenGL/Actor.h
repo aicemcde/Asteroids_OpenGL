@@ -31,15 +31,17 @@ public:
 	Matrix4 GetWorldTransform() const { return mWorldTransform; }
 
 	float GetRotation() const { return mRotation; }
-	void SetRotation(float rot) { mRotation = rot; }
+	void SetRotation(float rot) { mRotation = rot; mRecomputeWorldTransform = true; }
 	Vector2 GetPosition() const { return mPosition; }
-	void SetPosition(const Vector2& pos) { mPosition = pos; }
+	void SetPosition(const Vector2& pos) { mPosition = pos; mRecomputeWorldTransform = true; }
 	float GetScale() const { return mScale; }
+	void SetScale(float scale) { mScale = scale; mRecomputeWorldTransform = true; }
+	void SetState(const State& state) { mState = state; }
 
 	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
 
 	void AddComponent(std::unique_ptr<class Component> component);
-	void RemoveComponen(class Component* component);
+	void RemoveComponent(class Component* component);
 private:
 	State mState;
 	float mScale;

@@ -6,6 +6,7 @@
 #include "Actor.h"
 #include "Asteroid.h"
 #include "ResourceManager.h"
+#include "Ship.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -78,7 +79,7 @@ bool Game::Initialize()
 	InitSpriteVerts();
 
 	mScene = std::make_unique<Scene>();
-	mResourcManager = std::make_unique<ResourceManager>();
+	mResourceManager = std::make_unique<ResourceManager>();
 
 	LoadData();
 
@@ -124,6 +125,8 @@ void Game::ProcessInput()
 		mIsRunning = false;
 	}
 
+	mScene->ProcessInput(keyState);
+
 }
 
 void Game::UpdateGame()
@@ -135,6 +138,7 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05f;
 	}
+	UpdateAsteroid();
 	mScene->Update(deltaTime);
 }
 
@@ -146,6 +150,12 @@ void Game::GenerateOutput()
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 
+	glEnable(GL_BLEND);
+	glBlendFunc(
+		GL_SRC_ALPHA,
+		GL_ONE_MINUS_SRC_ALPHA
+	);
+
 	mScene->Draw(mSpriteShader.get());
 
 	SDL_GL_SwapWindow(mWindow);
@@ -153,10 +163,12 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	const int numAsteroid = 20;
+	std::unique_ptr<Ship> ship = std::make_unique<Ship>();
+	mScene->AddActor(std::move(ship));
+
 	std::unique_ptr<Asteroid> asteroid;
 
-	for (int i = 0; i < numAsteroid; ++i)
+	for (int i = 0; i < mNumAsteroid; ++i)
 	{
 		asteroid = std::make_unique<Asteroid>();
 		mScene->AddActor(std::move(asteroid));
@@ -196,4 +208,15 @@ bool Game::LoadShaders()
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.f, 768.f);
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
 	return true;
+}
+
+void Game::UpdateAsteroid()
+{
+	int asteroidsNum = static_cast<int>(mScene->GetAsteroids().size());
+	while (asteroidsNum < mNumAsteroid)
+	{
+		std::unique_ptr<Asteroid> asteroid = std::make_unique<Asteroid>();
+		mScene->AddActor(std::move(asteroid));
+		++asteroidsNum;
+	}
 }

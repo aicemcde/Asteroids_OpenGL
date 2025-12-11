@@ -58,14 +58,14 @@ void Actor::ActorInput(const uint8_t* keyState)
 
 }
 
-void Actor::AddComponent(std::unique_ptr<Component> compnent)
+void Actor::AddComponent(std::unique_ptr<Component> component)
 {
-	int myOrder = compnent->GetUpdateOrder();
+	int myOrder = component->GetUpdateOrder();
 	auto iter = std::ranges::lower_bound(mComponents, myOrder, {}, &Component::GetUpdateOrder);
-	mComponents.insert(iter, std::move(compnent));
+	mComponents.insert(iter, std::move(component));
 }
 
-void Actor::RemoveComponen(Component* component)
+void Actor::RemoveComponent(Component* component)
 {
 	auto iter = std::find_if(mComponents.begin(), mComponents.end(),
 		[component](const std::unique_ptr<Component>& ptr)

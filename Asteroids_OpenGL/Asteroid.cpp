@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "Texture.h"
+#include "Scene.h"
 
 
 Asteroid::Asteroid()
@@ -31,9 +32,19 @@ Asteroid::Asteroid()
 	mCircle->SetRadius(40.0f);
 	AddComponent(std::move(cc));
 	
+	Game::Get().GetScene()->AddAsteroid(this);
 }
 
 Asteroid::~Asteroid()
 {
-	
+	Game::Get().GetScene()->RemoveAsteroid(this);
+}
+
+void Asteroid::UpdateActor(float deltaTime)
+{
+	Vector2 pos = GetPosition();
+	if (pos.x < -562.0f || pos.x > 562.0f || pos.y < -434.0f || pos.y > 434.0f)
+	{
+		SetState(EDead);
+	}
 }
