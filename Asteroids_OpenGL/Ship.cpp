@@ -12,7 +12,10 @@ Ship::Ship()
 {
 
 	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(this, 150);
-	sc->SetTexture(Game::Get().GetResourceManager()->GetTexture("assets/Ship.png"));
+	mShipTex = Game::Get().GetResourceManager()->GetTexture("Assets/Ship.png");
+	mThrustTex = Game::Get().GetResourceManager()->GetTexture("Assets/ShipWithThrust.png");
+	sc->SetTexture(mShipTex);
+	mSprite = sc.get();
 	AddComponent(std::move(sc));
 
 	std::unique_ptr<InputComponent>ic = std::make_unique<InputComponent>(this);
@@ -34,11 +37,18 @@ void Ship::ActorInput(const uint8_t* keyState)
 {
 	if (keyState[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.0)
 	{
-		std::unique_ptr<Laser> laser = std::make_unique<Laser>();
-		laser->SetPosition(GetPosition());
-		laser->SetRotation(GetRotation());
+		std::unique_ptr<Laser> laser = std::make_unique<Laser>(GetPosition(), GetRotation());
 		mLaserCooldown = 0.5f;
 		Game::Get().GetScene()->AddActor(std::move(laser));
+	}
+
+	if (keyState[SDL_SCANCODE_W] || keyState[SDL_SCANCODE_A] || keyState[SDL_SCANCODE_S] || keyState[SDL_SCANCODE_D])
+	{
+		mSprite->SetTexture(mThrustTex);
+	}
+	else
+	{
+		mSprite->SetTexture(mShipTex);
 	}
 }
 
@@ -48,4 +58,7 @@ void Ship::UpdateActor(float deltaTime)
 	{
 		mLaserCooldown -= deltaTime;
 	}
+
+	Vector2 pos = GetPosition();
+
 }

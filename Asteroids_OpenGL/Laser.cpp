@@ -7,10 +7,13 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 
-Laser::Laser()
+Laser::Laser(const Vector2& pos, float rot)
 	:Actor()
 	, mDeathTimer(5.0f)
 {
+	SetPosition(pos);
+	SetRotation(rot);
+
 	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(this, 200);
 	sc->SetTexture(Game::Get().GetResourceManager()->GetTexture("assets/Laser.png"));
 	AddComponent(std::move(sc));
@@ -34,7 +37,7 @@ void Laser::UpdateActor(float deltaTime)
 	}
 	else
 	{
-		for (auto ast : Game::Get().GetScene()->GetAsteroids())
+		/*for (auto ast : Game::Get().GetScene()->GetAsteroids())
 		{
 			if (Intersect(*mCircle, *(ast->GetCircle())))
 			{
@@ -42,6 +45,6 @@ void Laser::UpdateActor(float deltaTime)
 				ast->SetState(EDead);
 				break;
 			}
-		}
+		}*/
 	}
 }

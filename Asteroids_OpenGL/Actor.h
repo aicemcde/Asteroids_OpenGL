@@ -38,7 +38,7 @@ public:
 	void SetScale(float scale) { mScale = scale; mRecomputeWorldTransform = true; }
 	void SetState(const State& state) { mState = state; }
 
-	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
+	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), Math::Sin(mRotation)); }
 
 	void AddComponent(std::unique_ptr<class Component> component);
 	void RemoveComponent(class Component* component);
