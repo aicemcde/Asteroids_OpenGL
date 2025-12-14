@@ -8,11 +8,6 @@ CircleComponent::CircleComponent(Actor* owner)
 
 }
 
-const Vector2& CircleComponent::GetCenter() const
-{
-	return mOwner->GetPosition();
-}
-
 float CircleComponent::GetRadius() const
 {
 	return mOwner->GetScale() * mRadius;
@@ -20,7 +15,7 @@ float CircleComponent::GetRadius() const
 
 bool Intersect(const CircleComponent& a, const CircleComponent& b)
 {
-	Vector2 diff = a.GetCenter() - b.GetCenter();
+	Vector2 diff = a.GetOwner()->GetPosition() - b.GetOwner()->GetPosition();
 	float distSq = diff.LengthSq();
 
 	float radiiSq = a.GetRadius() + b.GetRadius();

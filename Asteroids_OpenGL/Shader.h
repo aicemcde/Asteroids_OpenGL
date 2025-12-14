@@ -19,7 +19,7 @@ private:
 	bool CompileShader(const std::string& fileName,
 		GLenum shaderType, GLuint& outShader);
 	bool IsCompiled(GLuint shader);
-	bool IsValidProgaram();
+	bool IsValidProgram();
 
 	GLuint mVertexShader;
 	GLuint mFragShader;

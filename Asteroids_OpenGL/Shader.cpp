@@ -6,6 +6,9 @@
 #include <SDL.h>
 
 Shader::Shader()
+	:mShaderProgram(0)
+	,mVertexShader(0)
+	,mFragShader(0)
 {
 
 }
@@ -73,14 +76,14 @@ bool Shader::Load(const std::string& vertName,
 	glAttachShader(mShaderProgram, mVertexShader);
 	glAttachShader(mShaderProgram, mFragShader);
 	glLinkProgram(mShaderProgram);
-	if (!IsValidProgaram())
+	if (!IsValidProgram())
 	{
 		return false;
 	}
 	return true;
 }
 
-bool Shader::IsValidProgaram()
+bool Shader::IsValidProgram()
 {
 	GLint status;
 	glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &status);
@@ -89,7 +92,7 @@ bool Shader::IsValidProgaram()
 		char buffer[512];
 		memset(buffer, 0, 512);
 		glGetProgramInfoLog(mShaderProgram, 511, nullptr, buffer);
-		SDL_Log("Shader compilaton failed : \n%s", buffer);
+		SDL_Log("Shader compilation failed : \n%s", buffer);
 		return false;
 	}
 	return true;

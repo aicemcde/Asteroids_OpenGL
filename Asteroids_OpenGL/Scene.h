@@ -3,6 +3,8 @@
 #include <vector>
 #include <SDL.h>
 
+class Asteroid;
+
 class Scene
 {
 public:
@@ -11,6 +13,7 @@ public:
 	void Update(float deltaTime);
 	void Draw(class Shader* shader);
 	void Unload();
+	void ProcessInput(const uint8_t* keyState);
 
 	void AddActor(std::unique_ptr<class Actor> actor);
 	void RemoveActor(class Actor* actor);
@@ -19,10 +22,15 @@ public:
 	void RemoveSpriteComponent(class SpriteComponent* sc);
 
 	void InputActor(const uint8_t* keyState);
+
+	const std::vector<Asteroid*>& GetAsteroids() const { return mAsteroids; }
+	void AddAsteroid(Asteroid* asteroid);
+	void RemoveAsteroid(Asteroid* asteroid);
 private:
 	std::vector<std::unique_ptr<class Actor>> mActors;
 	std::vector < std::unique_ptr<class Actor>> mPendingActors;
 
 	bool mUpdatingActors;
 	std::vector<class SpriteComponent*> mSpriteComps;
+	std::vector<Asteroid*> mAsteroids;
 };

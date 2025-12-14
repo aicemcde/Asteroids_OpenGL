@@ -2,6 +2,8 @@
 #include "Component.h"
 #include <SDL.h>
 
+class Texture;
+
 class SpriteComponent : public Component
 {
 public:
@@ -9,9 +11,9 @@ public:
 	~SpriteComponent();
 
 	void Draw(class Shader* shader);
-	void SetTexture(SDL_Texture* texture);
+	void SetTexture(Texture* texture);
 private:
 	int mTexWidth;
 	int mTexHeight;
-	SDL_Texture* mTexture;
+	Texture* mTexture;
 };

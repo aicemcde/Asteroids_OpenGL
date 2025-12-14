@@ -5,11 +5,12 @@
 #include "Shader.h"
 #include "Game.h"
 #include "Scene.h"
+#include "Texture.h"
 
 SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	:Component(owner, updateOrder)
-	, mTexHeight(64)
-	, mTexWidth(64)
+	, mTexHeight(0)
+	, mTexWidth(0)
 	, mTexture(nullptr)
 {
 	Game::Get().GetScene()->AddSpriteComponent(this);
@@ -29,6 +30,7 @@ void SpriteComponent::Draw(Shader* shader)
 	);
 	Matrix4 world = scaleMat * mOwner->GetWorldTransform();
 	shader->SetMatrixUniform("uWorldTransform", world);
+	mTexture->SetActive();
 	glDrawElements(
 		GL_TRIANGLES,
 		6,
@@ -37,8 +39,9 @@ void SpriteComponent::Draw(Shader* shader)
 	);
 }
 
-void SpriteComponent::SetTexture(SDL_Texture* texture)
+void SpriteComponent::SetTexture(Texture* texture)
 {
 	mTexture = texture;
-	SDL_QueryTexture(texture, nullptr, nullptr, &mTexWidth, &mTexHeight);
+	mTexWidth = mTexture->GetWidth();
+	mTexHeight = mTexture->GetHeight();
 }

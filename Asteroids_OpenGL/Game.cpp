@@ -1,11 +1,14 @@
 #include "Game.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include "SpriteComponent.h"
 #include <cstdint>
 #include "Scene.h"
 #include "Actor.h"
 #include "Asteroid.h"
+#include "ResourceManager.h"
+#include "Ship.h"
+#include <SDL_ttf.h>
+#include "Score.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -16,6 +19,7 @@ Game::Game()
 	,mIsRunning(true)
 	,mContext(nullptr)
 	,mTicksCount(0)
+	,mScreenSize(1024.0f, 768.0f)
 {
 	if (sInstance == nullptr)sInstance = this;
 
@@ -53,12 +57,18 @@ bool Game::Initialize()
 		return false;
 	}
 
+	if (TTF_Init() != 0)
+	{
+		SDL_Log("TTF could not initialize!");
+		return false;
+	}
+
 	mContext = SDL_GL_CreateContext(mWindow);
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		SDL_Log("GLEW could not intitialize!");
+		SDL_Log("GLEW could not initialize!");
 		return false;
 	}
 
@@ -78,6 +88,7 @@ bool Game::Initialize()
 	InitSpriteVerts();
 
 	mScene = std::make_unique<Scene>();
+	mResourceManager = std::make_unique<ResourceManager>();
 
 	LoadData();
 
@@ -123,6 +134,8 @@ void Game::ProcessInput()
 		mIsRunning = false;
 	}
 
+	mScene->ProcessInput(keyState);
+
 }
 
 void Game::UpdateGame()
@@ -134,7 +147,8 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05f;
 	}
-
+	UpdateAsteroid();
+	mScene->Update(deltaTime);
 }
 
 void Game::GenerateOutput()
@@ -145,6 +159,12 @@ void Game::GenerateOutput()
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 
+	glEnable(GL_BLEND);
+	glBlendFunc(
+		GL_SRC_ALPHA,
+		GL_ONE_MINUS_SRC_ALPHA
+	);
+
 	mScene->Draw(mSpriteShader.get());
 
 	SDL_GL_SwapWindow(mWindow);
@@ -152,10 +172,16 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	const int numAsteroid = 20;
+	std::unique_ptr<Ship> ship = std::make_unique<Ship>();
+	mScene->AddActor(std::move(ship));
+
+	std::unique_ptr<Score> score = std::make_unique<Score>();
+	mScorePtr = score.get();
+	mScene->AddActor(std::move(score));
+
 	std::unique_ptr<Asteroid> asteroid;
 
-	for (int i = 0; i < numAsteroid; ++i)
+	for (int i = 0; i < mNumAsteroid; ++i)
 	{
 		asteroid = std::make_unique<Asteroid>();
 		mScene->AddActor(std::move(asteroid));
@@ -170,10 +196,10 @@ void Game::UnloadData()
 void Game::InitSpriteVerts()
 {
 	float vertexBuffer[] = {
-	-0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	-0.5f, -0.5f, 0.0f
+	-0.5f, 0.5f, 0.f, 0.f, 0.f,
+	0.5f, 0.5f, 0.f, 1.f, 0.f,
+	0.5f, -0.5f, 0.f, 1.f, 1.f,
+	-0.5f, -0.5f, 0.f, 0.f, 1.f
 	};
 
 	unsigned int indexBuffer[] = {
@@ -187,12 +213,28 @@ void Game::InitSpriteVerts()
 bool Game::LoadShaders()
 {
 	mSpriteShader = std::make_unique<Shader>();
-	if (!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
+	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
 		return false;
 	}
+	mSpriteShader->SetActive();
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.f, 768.f);
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
-	mSpriteShader->SetActive();
 	return true;
+}
+
+void Game::UpdateAsteroid()
+{
+	int asteroidsNum = static_cast<int>(mScene->GetAsteroids().size());
+	while (asteroidsNum < mNumAsteroid)
+	{
+		std::unique_ptr<Asteroid> asteroid = std::make_unique<Asteroid>();
+		mScene->AddActor(std::move(asteroid));
+		++asteroidsNum;
+	}
+}
+
+void Game::ScoreUpdate()
+{
+	mScorePtr->AddScore();
 }

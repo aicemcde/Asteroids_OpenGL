@@ -1,15 +1,37 @@
 #include "ResourceManager.h"
-#include <SDL_image.h>
+#include "Texture.h"
 
-SDL_Texture* ResourceManager::GetTexture(const char* fileName)
+ResourceManager::ResourceManager()
 {
-	SDL_Surface* surf = IMG_Load(fileName);
-	if (!surf)
-	{
-		SDL_Log("Filed to load texturefile : %s", fileName);
-		return nullptr;
-	}
 
-	SDL_Texture* text;
-	return text;
+}
+
+ResourceManager::~ResourceManager()
+{
+
+}
+
+Texture* ResourceManager::GetTexture(const std::string& fileName)
+{
+	Texture* tex = nullptr;
+	auto iter = mTextures.find(fileName);
+	if (iter != mTextures.end())
+	{
+		tex = iter->second.get();
+	}
+	else
+	{
+		std::unique_ptr<Texture> uniTex = std::make_unique<Texture>();
+		if (uniTex->Load(fileName))
+		{
+			tex = uniTex.get();
+			mTextures.emplace(fileName, std::move(uniTex));
+		}
+	}
+	return tex;
+}
+
+void ResourceManager::Unload()
+{
+	mTextures.clear();
 }

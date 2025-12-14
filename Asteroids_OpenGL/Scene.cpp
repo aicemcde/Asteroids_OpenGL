@@ -2,11 +2,22 @@
 #include "Actor.h"
 #include <algorithm>
 #include "SpriteComponent.h"
+#include "Asteroid.h"
 
 Scene::Scene()
 	:mUpdatingActors(false)
 {
 
+}
+
+void Scene::ProcessInput(const uint8_t* keyState)
+{
+	mUpdatingActors = true;
+	for (auto& actor : mActors)
+	{
+		actor->ProcessInput(keyState);
+	}
+	mUpdatingActors = false;
 }
 
 void Scene::Update(float deltaTime)
@@ -71,15 +82,18 @@ void Scene::RemoveActor(Actor* actor)
 		return;
 	}
 
-	iter = std::find_if(mActors.begin(), mActors.end(),
-		[actor](const std::unique_ptr<Actor>& ptr)
-		{
-			return ptr.get() == actor;
-		});
-	if (iter != mActors.end())
+	if (!mUpdatingActors)
 	{
-		std::iter_swap(iter, mActors.end() - 1);
-		mActors.pop_back();
+		iter = std::find_if(mActors.begin(), mActors.end(),
+			[actor](const std::unique_ptr<Actor>& ptr)
+			{
+				return ptr.get() == actor;
+			});
+		if (iter != mActors.end())
+		{
+			std::iter_swap(iter, mActors.end() - 1);
+			mActors.pop_back();
+		}
 	}
 }
 
@@ -107,4 +121,18 @@ void Scene::InputActor(const uint8_t* keyState)
 		actor->ProcessInput(keyState);
 	}
 	mUpdatingActors = false;
+}
+
+void Scene::AddAsteroid(Asteroid* asteroid)
+{
+	mAsteroids.emplace_back(asteroid);
+}
+
+void Scene::RemoveAsteroid(Asteroid* asteroid)
+{
+	auto iter = std::ranges::find(mAsteroids, asteroid);
+	if (iter != mAsteroids.end())
+	{
+		mAsteroids.erase(iter);
+	}
 }
