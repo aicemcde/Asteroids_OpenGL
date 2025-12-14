@@ -11,7 +11,7 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		numVerts * 5 * sizeof(float),
+		numVerts * 8 * sizeof(float),
 		verts,
 		GL_STATIC_DRAW
 	);
@@ -24,25 +24,35 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 		indices,
 		GL_STATIC_DRAW
 	);
-
+	//座標(Position)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
 		0,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		sizeof(float) * 5,
+		sizeof(float) * 8,
 		0
 	);
-
+	//テクスチャ座標(TexCoord)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(
 		1,
 		2,
 		GL_FLOAT,
 		GL_FALSE,
-		sizeof(float) * 5,
+		sizeof(float) * 8,
 		reinterpret_cast<void*>(sizeof(float) * 3)
+	);
+	//色(Color)
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(float) * 8,
+		reinterpret_cast<void*>(sizeof(float) * 5)
 	);
 }
 

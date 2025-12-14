@@ -149,12 +149,13 @@ void Game::UpdateGame()
 	}
 	UpdateAsteroid();
 	mScene->Update(deltaTime);
+	ColorfulBG(deltaTime);
 }
 
 void Game::GenerateOutput()
 {
-	glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	/*glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);*/
 	
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
@@ -196,10 +197,10 @@ void Game::UnloadData()
 void Game::InitSpriteVerts()
 {
 	float vertexBuffer[] = {
-	-0.5f, 0.5f, 0.f, 0.f, 0.f,
-	0.5f, 0.5f, 0.f, 1.f, 0.f,
-	0.5f, -0.5f, 0.f, 1.f, 1.f,
-	-0.5f, -0.5f, 0.f, 0.f, 1.f
+	-0.5f, 0.5f, 0.f, 0.f, 0.f, 1.0f, 1.0f, 0.0f,
+	0.5f, 0.5f, 0.f, 1.f, 0.f, 1.0f, 1.0f, 0.0f,
+	0.5f, -0.5f, 0.f, 1.f, 1.f, 1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, 0.f, 0.f, 1.f, 1.0f, 1.0f, 0.0f,
 	};
 
 	unsigned int indexBuffer[] = {
@@ -237,4 +238,18 @@ void Game::UpdateAsteroid()
 void Game::ScoreUpdate()
 {
 	mScorePtr->AddScore();
+}
+
+void Game::ColorfulBG(float deltaTime)
+{
+	if (mRGB_bgColor.z < 1.0f)
+	{
+		mRGB_bgColor.z += deltaTime / 5.0f;
+		if (mRGB_bgColor.z > 1.0f)
+		{
+			mRGB_bgColor.z = 1.0f;
+		}
+	}
+	glClearColor(mRGB_bgColor.x, mRGB_bgColor.y, mRGB_bgColor.z, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }

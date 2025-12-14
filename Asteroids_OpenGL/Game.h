@@ -30,6 +30,7 @@ private:
 	void LoadData();
 	void UnloadData();
 	void UpdateAsteroid();
+	void ColorfulBG(float deltaTime);
 	
 
 	static Game* sInstance;
@@ -48,4 +49,6 @@ private:
 
 	Uint32 mTicksCount;
 	const int mNumAsteroid = 23;
+
+	Vector3 mRGB_bgColor;
 };
