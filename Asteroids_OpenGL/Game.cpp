@@ -7,6 +7,8 @@
 #include "Asteroid.h"
 #include "ResourceManager.h"
 #include "Ship.h"
+#include <SDL_ttf.h>
+#include "Score.h"
 
 Game* Game::sInstance = nullptr;
 
@@ -17,6 +19,7 @@ Game::Game()
 	,mIsRunning(true)
 	,mContext(nullptr)
 	,mTicksCount(0)
+	,mScreenSize(1024.0f, 768.0f)
 {
 	if (sInstance == nullptr)sInstance = this;
 
@@ -51,6 +54,12 @@ bool Game::Initialize()
 	if (!mWindow)
 	{
 		SDL_Log("SDL cannot create Window! SDL_Error : %s", SDL_GetError());
+		return false;
+	}
+
+	if (TTF_Init() != 0)
+	{
+		SDL_Log("TTF could not initialize!");
 		return false;
 	}
 
@@ -166,6 +175,10 @@ void Game::LoadData()
 	std::unique_ptr<Ship> ship = std::make_unique<Ship>();
 	mScene->AddActor(std::move(ship));
 
+	std::unique_ptr<Score> score = std::make_unique<Score>();
+	mScorePtr = score.get();
+	mScene->AddActor(std::move(score));
+
 	std::unique_ptr<Asteroid> asteroid;
 
 	for (int i = 0; i < mNumAsteroid; ++i)
@@ -219,4 +232,9 @@ void Game::UpdateAsteroid()
 		mScene->AddActor(std::move(asteroid));
 		++asteroidsNum;
 	}
+}
+
+void Game::ScoreUpdate()
+{
+	mScorePtr->AddScore();
 }

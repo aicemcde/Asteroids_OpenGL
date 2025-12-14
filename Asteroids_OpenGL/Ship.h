@@ -14,4 +14,5 @@ private:
 	class SpriteComponent* mSprite = nullptr;
 	class Texture* mShipTex = nullptr;
 	class Texture* mThrustTex = nullptr;
+	class CircleComponent* mCircle = nullptr;
 };

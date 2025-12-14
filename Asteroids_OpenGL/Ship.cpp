@@ -5,6 +5,10 @@
 #include "ResourceManager.h"
 #include "Laser.h"
 #include "Scene.h"
+#include "CircleComponent.h"
+#include "Asteroid.h"
+#include "GameOver.h"
+#include "GameOverSubText.h"
 
 Ship::Ship()
 	:Actor()
@@ -26,6 +30,13 @@ Ship::Ship()
 	ic->SetClockwiseKey(SDL_SCANCODE_D);
 	ic->SetCounterClockwiseKey(SDL_SCANCODE_A);
 	AddComponent(std::move(ic));
+
+	std::unique_ptr<CircleComponent> cc = std::make_unique<CircleComponent>(this);
+	cc->SetRadius(32.0f);
+	mCircle = cc.get();
+	AddComponent(std::move(cc));
+
+	ComputeWorldTransform();
 }
 
 Ship::~Ship()
@@ -60,5 +71,35 @@ void Ship::UpdateActor(float deltaTime)
 	}
 
 	Vector2 pos = GetPosition();
+	if (pos.x < -480.0f)
+	{
+		pos.x = -480.0f;
+	}
+	if (pos.x > 480.0f)
+	{
+		pos.x = 480.0f;
+	}
+	if (pos.y < -352.0f)
+	{
+		pos.y = -352.0f;
+	}
+	if (pos.y > 352.0f)
+	{
+		pos.y = 352.0f;
+	}
+	SetPosition(pos);
 
+	for (auto ast : Game::Get().GetScene()->GetAsteroids())
+	{
+		if (Intersect(*mCircle, *(ast->GetCircle())))
+		{
+			SetState(EDead);
+			ast->SetState(EDead);
+			std::unique_ptr<GameOver> go = std::make_unique<GameOver>();
+			std::unique_ptr<GameOverSub> gos = std::make_unique<GameOverSub>();
+			Game::Get().GetScene()->AddActor(std::move(gos));
+			Game::Get().GetScene()->AddActor(std::move(go));
+			break;
+		}
+	}
 }

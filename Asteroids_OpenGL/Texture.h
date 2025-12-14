@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Math.h"
 
 class Texture
 {
@@ -9,6 +10,8 @@ public:
 
 	bool Load(const std::string& fileName);
 	void Unload();
+
+	bool CreateFromText(const std::string& text, const std::string& fontName, int pointSize, const Vector3& color);
 
 	void SetActive();
 

@@ -9,7 +9,7 @@
 
 Laser::Laser(const Vector2& pos, float rot)
 	:Actor()
-	, mDeathTimer(5.0f)
+	, mDeathTimer(1.0f)
 {
 	SetPosition(pos);
 	SetRotation(rot);
@@ -24,8 +24,10 @@ Laser::Laser(const Vector2& pos, float rot)
 
 	std::unique_ptr<CircleComponent> cc = std::make_unique<CircleComponent>(this);
 	mCircle = cc.get();
-	mCircle->SetRadius(11.0f);
+	mCircle->SetRadius(8.0f);
 	AddComponent(std::move(cc));
+
+	ComputeWorldTransform();
 }
 
 void Laser::UpdateActor(float deltaTime)
@@ -37,14 +39,15 @@ void Laser::UpdateActor(float deltaTime)
 	}
 	else
 	{
-		/*for (auto ast : Game::Get().GetScene()->GetAsteroids())
+		for (auto ast : Game::Get().GetScene()->GetAsteroids())
 		{
 			if (Intersect(*mCircle, *(ast->GetCircle())))
 			{
+				Game::Get().ScoreUpdate();
 				SetState(EDead);
 				ast->SetState(EDead);
 				break;
 			}
-		}*/
+		}
 	}
 }

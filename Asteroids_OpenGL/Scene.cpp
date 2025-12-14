@@ -12,10 +12,12 @@ Scene::Scene()
 
 void Scene::ProcessInput(const uint8_t* keyState)
 {
+	mUpdatingActors = true;
 	for (auto& actor : mActors)
 	{
 		actor->ProcessInput(keyState);
 	}
+	mUpdatingActors = false;
 }
 
 void Scene::Update(float deltaTime)

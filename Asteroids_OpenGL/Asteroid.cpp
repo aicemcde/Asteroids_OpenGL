@@ -13,11 +13,43 @@ Asteroid::Asteroid()
 	:Actor()
 	, mCircle(nullptr)
 {
-	Vector2 randPos = Random::GetVector(Vector2(-512.0f, -384.0f),
-		Vector2(512.0f, 384.0f));
-	SetPosition(randPos);
+	const float rangeX = 600.0f;
+	const float rangeY = 450.0f;
 
-	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
+	Vector2 startPos;
+
+	int edge = Random::GetIntRange(0, 3);
+
+	switch (edge)
+	{
+	case 0:
+		startPos.x = -rangeX;
+		startPos.y = Random::GetFloatRange(-rangeY, rangeY);
+		break;
+	case 1:
+		startPos.x = rangeX;
+		startPos.y = Random::GetFloatRange(-rangeY, rangeY);
+		break;
+	case 2:
+		startPos.x = Random::GetFloatRange(-rangeX, rangeX);
+		startPos.y = rangeY;
+		break;
+	case 3:
+		startPos.x = Random::GetFloatRange(-rangeX, rangeX);
+		startPos.y = -rangeY;
+		break;
+	default:
+		break;
+	}
+	
+	SetPosition(startPos);
+
+	Vector2 targetPos = Vector2(Random::GetFloatRange(-100.0f, 100.0f), Random::GetFloatRange(-100.0f, 100.0f));
+
+	Vector2 dir = targetPos - startPos;
+	dir.Normalize();
+
+	SetRotation(Math::Atan2(dir.y, dir.x));
 
 	std::unique_ptr<SpriteComponent> sc = std::make_unique<SpriteComponent>(this);
 	sc->SetTexture(Game::Get().GetResourceManager()->GetTexture("Assets/Asteroid.png"));
@@ -29,10 +61,12 @@ Asteroid::Asteroid()
 
 	std::unique_ptr<CircleComponent> cc = std::make_unique<CircleComponent>(this);
 	mCircle = cc.get();
-	mCircle->SetRadius(40.0f);
+	mCircle->SetRadius(32.0f);
 	AddComponent(std::move(cc));
 	
 	Game::Get().GetScene()->AddAsteroid(this);
+
+	ComputeWorldTransform();
 }
 
 Asteroid::~Asteroid()
@@ -42,8 +76,10 @@ Asteroid::~Asteroid()
 
 void Asteroid::UpdateActor(float deltaTime)
 {
+	const float deathRangeX = 650.0f;
+	const float deathRangeY = 500.0f;
 	Vector2 pos = GetPosition();
-	if (pos.x < -562.0f || pos.x > 562.0f || pos.y < -434.0f || pos.y > 434.0f)
+	if (pos.x < -deathRangeX || pos.x > deathRangeX || pos.y < -deathRangeY || pos.y > deathRangeY)
 	{
 		SetState(EDead);
 	}

@@ -42,6 +42,8 @@ public:
 
 	void AddComponent(std::unique_ptr<class Component> component);
 	void RemoveComponent(class Component* component);
+
+
 private:
 	State mState;
 	float mScale;

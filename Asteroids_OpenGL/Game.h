@@ -20,6 +20,9 @@ public:
 	bool LoadShaders();
 	class Scene* GetScene() const { return mScene.get(); }
 	class ResourceManager* GetResourceManager() const { return mResourceManager.get(); }
+	const Vector2& GetScreenSize() const { return mScreenSize; }
+	void SetGameRunning(bool running) { mIsRunning = running; }
+	void ScoreUpdate();
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -27,6 +30,7 @@ private:
 	void LoadData();
 	void UnloadData();
 	void UpdateAsteroid();
+	
 
 	static Game* sInstance;
 	Vector2 mScreenSize;
@@ -40,7 +44,8 @@ private:
 
 	std::unique_ptr<class Scene> mScene;
 	std::unique_ptr<class ResourceManager> mResourceManager;
+	class Score* mScorePtr = nullptr;
 
 	Uint32 mTicksCount;
-	const int mNumAsteroid = 20;
+	const int mNumAsteroid = 23;
 };
